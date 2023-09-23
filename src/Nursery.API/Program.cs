@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Nursey.API.Entities;
@@ -11,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<RegisterService>();
 builder.Services.AddScoped<PersonRepository>();
+builder.Services.AddScoped<IValidator<PersonRequest>, PersonRequestValidatorSmart>();
+
 builder.Services.AddDbContext<Context>(options 
     => options.UseInMemoryDatabase("Memory"));
 
@@ -24,7 +27,9 @@ app.MapGet("people", (PersonRepository repository) => {
     return Results.Ok(repository.GetAll());
 });
 
-app.MapPost("people/parents", (PersonRequest parent, RegisterService service) => {
+app.MapPost("people/parents", (PersonRequest parent, RegisterService service, IValidator<PersonRequest> smart) => {
+    var validator = new PersonRequestValidator().Validate(parent);
+    var validatorSmart = smart.Validate(parent);
     if (!service.AddParent(parent))
         return Results.BadRequest("Parent has been registered already.");
 

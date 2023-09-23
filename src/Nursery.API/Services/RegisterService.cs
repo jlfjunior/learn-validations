@@ -16,6 +16,7 @@ public class RegisterService
     {
         var parent = new Parent(person.CPF, person.Name, person.Address);
 
+        //if true - Parent has been registered already.
         if (_personRepository.Exists(parent.CPF)) return false;
 
         _personRepository.Add(parent);
