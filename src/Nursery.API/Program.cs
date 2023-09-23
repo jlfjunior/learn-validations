@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Nursey.API.Entities;
 using Nursey.API.Repositories;
 using Nursey.API.Services;
@@ -10,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<RegisterService>();
 builder.Services.AddScoped<PersonRepository>();
+builder.Services.AddDbContext<Context>(options 
+    => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -17,11 +20,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.MapGet("status", () => {
-    return Results.Ok("Running...");
+app.MapGet("people", (PersonRepository repository) => {
+    return Results.Ok(repository.GetAll());
 });
 
-app.MapPost("people/parents", (PersonRequest parent) => {
+app.MapPost("people/parents", (PersonRequest parent, RegisterService service) => {
+    if (!service.AddParent(parent))
+        Results.BadRequest("Parent has been registered already.");
+
     return Results.Ok($"Parent registered successfully. Id: {parent.CPF}");
 });
 
