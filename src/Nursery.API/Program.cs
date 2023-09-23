@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<RegisterService>();
 builder.Services.AddScoped<PersonRepository>();
 builder.Services.AddDbContext<Context>(options 
-    => options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+    => options.UseInMemoryDatabase("Memory"));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -26,7 +26,7 @@ app.MapGet("people", (PersonRepository repository) => {
 
 app.MapPost("people/parents", (PersonRequest parent, RegisterService service) => {
     if (!service.AddParent(parent))
-        Results.BadRequest("Parent has been registered already.");
+        return Results.BadRequest("Parent has been registered already.");
 
     return Results.Ok($"Parent registered successfully. Id: {parent.CPF}");
 });
