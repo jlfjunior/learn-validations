@@ -24,12 +24,20 @@ public class RegisterService
         return true;
     }
 
-    public bool AddChild(ChildRequest person)
+    public bool AddChild(ChildRequest request)
     {
-        //TODO: Repositoty
-        // if (person exist) return false;
+        //If child has been registered already. return false
+        if (_personRepository.Exists(request.CPF)) return false;
 
-        var parent = new Parent(person.CPF, person.Name, person.Address);
+        //If father not found. return false
+        if (!_personRepository.Exists(request.FatherId)) return false;
+
+        //If mother not found. return false
+        if (!_personRepository.Exists(request.MotherId)) return false;
+
+        var child = new Child(request.CPF, request.Name, request.Address, request.FatherId, request.MotherId);
+        
+        _personRepository.Add(child);
 
         return true;
     }

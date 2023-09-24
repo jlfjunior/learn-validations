@@ -28,8 +28,8 @@ public class PersonRequestValidatorSmart : AbstractValidator<PersonRequest>
     {
         Include(new PersonRequestValidator());
 
-        RuleFor(x => x.CPF)
-            .Must(x => !repository.Exists(x))
-            .WithMessage(x => $"Parent has been registered already. Id: {x}");  
+        RuleFor(model => model.CPF)
+            .Must(cpf => !repository.Exists(cpf))
+            .WithMessage(cpf => $"Parent has been registered already. Id: {cpf}");  
     }
 }

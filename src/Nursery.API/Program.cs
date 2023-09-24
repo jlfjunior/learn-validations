@@ -27,16 +27,19 @@ app.MapGet("people", (PersonRepository repository) => {
     return Results.Ok(repository.GetAll());
 });
 
-app.MapPost("people/parents", (PersonRequest parent, RegisterService service, IValidator<PersonRequest> smart) => {
+app.MapPost("people/parents", (PersonRequest parent, RegisterService service) => {
     var validator = new PersonRequestValidator().Validate(parent);
-    var validatorSmart = smart.Validate(parent);
+
     if (!service.AddParent(parent))
         return Results.BadRequest("Parent has been registered already.");
 
     return Results.Ok($"Parent registered successfully. Id: {parent.CPF}");
 });
 
-app.MapPost("people/children", (ChildRequest child) => {
+app.MapPost("people/children", (ChildRequest child, RegisterService service) => {
+
+    if (!service.AddChild(child)) return Results.BadRequest("Something went wrong.");
+
     return Results.Ok($"Parent registered successfully. Id: {child.CPF}");
 });
 
