@@ -1,4 +1,4 @@
-namespace Nursey.API.Entities;
+namespace Nursey.API.Requests;
 
 public class PersonRequest
 {

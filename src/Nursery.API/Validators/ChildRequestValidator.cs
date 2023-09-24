@@ -1,7 +1,8 @@
 using FluentValidation;
-using Nursey.API.Repositories;
+using Nursey.API.Data;
+using Nursey.API.Requests;
 
-namespace Nursey.API.Entities;
+namespace Nursey.API.Validators;
 
 public class ChildRequestValidator : AbstractValidator<ChildRequest>
 {

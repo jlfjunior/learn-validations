@@ -1,6 +1,6 @@
 using Nursey.API.Entities;
 
-namespace Nursey.API.Repositories;
+namespace Nursey.API.Data;
 
 public class PersonRepository
 {

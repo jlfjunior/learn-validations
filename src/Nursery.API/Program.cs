@@ -2,8 +2,10 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Nursey.API.Entities;
-using Nursey.API.Repositories;
+using Nursey.API.Data;
 using Nursey.API.Services;
+using Nursey.API.Requests;
+using Nursey.API.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 

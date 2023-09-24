@@ -1,5 +1,6 @@
 using Nursey.API.Entities;
-using Nursey.API.Repositories;
+using Nursey.API.Data;
+using Nursey.API.Requests;
 
 namespace Nursey.API.Services;
 
