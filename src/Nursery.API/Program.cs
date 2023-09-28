@@ -1,7 +1,5 @@
 using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Nursey.API.Entities;
 using Nursey.API.Data;
 using Nursey.API.Services;
 using Nursey.API.Requests;
@@ -14,8 +12,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<RegisterService>();
 builder.Services.AddScoped<PersonRepository>();
-builder.Services.AddScoped<IValidator<PersonRequest>, PersonRequestValidatorSmart>();
 
+#region Register Smart validation
+
+builder.Services.AddScoped<IValidator<PersonRequest>, PersonRequestValidatorSmart>();
+builder.Services.AddScoped<IValidator<ChildRequest>, ChildRequestValidator>();
+    
+#endregion`
 builder.Services.AddDbContext<Context>(options 
     => options.UseInMemoryDatabase("Memory"));
 
