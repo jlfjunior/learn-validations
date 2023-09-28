@@ -17,8 +17,10 @@ builder.Services.AddScoped<PersonRepository>();
 
 builder.Services.AddScoped<IValidator<PersonRequest>, PersonRequestValidatorSmart>();
 builder.Services.AddScoped<IValidator<ChildRequest>, ChildRequestValidator>();
+builder.Services.AddScoped<IValidator<UpdateParentsRequest>, UpdateParentsRequestValidator>();
     
-#endregion`
+#endregion
+
 builder.Services.AddDbContext<Context>(options 
     => options.UseInMemoryDatabase("Memory"));
 
